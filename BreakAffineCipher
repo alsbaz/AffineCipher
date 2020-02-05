@@ -1,0 +1,55 @@
+import math;
+
+def crackAffine(m):
+    plainText = '';
+    counter = 0;
+    encryptText = input('Please enter your encrypted text: \n');
+    encryptText = encryptText.upper();
+    length = len(encryptText);
+    print('Thank you, working on it...');
+    
+    coprimes = [];
+    for i in range(m):
+        testI = math.gcd(int(i), int(m));
+        if testI == 1:
+            coprimes.append(i);
+        
+    #for i in range(len(coprimes)):
+    #    print(coprimes[i]);
+
+    for i in range(len(coprimes)):
+        a = int(inverse(coprimes[i], m));
+        for b in range(m):
+            plainText = '';
+            for y in range(length):
+                encryptNum = ord(encryptText[y]);
+                if encryptNum >= 65 and encryptNum <= 90:
+                    plainNum = (((encryptNum - 65) - b) * a) % m;
+                    plainText += chr(plainNum + 65);
+                    counter += 1;
+                elif encryptNum == 32:
+                    plainText += chr(encryptNum);
+                    counter += 1;
+            print(plainText, '... a =', coprimes[i], '... b =', b);            
+    
+
+def inverse(a, m):
+    a1 = 1;
+    a2 = a;
+
+    b1 = 0;
+    b2 = m;
+
+    while b2 != 0:
+        x = a2 // b2;
+        b1, b2, a1, a2 = (a1 - x * b1), (a2 - x * b2), b1, b2;
+    return a1 % m;
+
+
+def main():
+    m = 26;
+    crackAffine(m);
+    print('The keys were a = 23 and b = 4, CRYPTOCURRENCIES!');
+
+
+main();
