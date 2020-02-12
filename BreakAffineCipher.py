@@ -73,7 +73,7 @@ def main():
     print('The keys were a = 23 and b = 4, CRYPTOCURRENCIES!');
     #This is only as a help for our task, with our encrypted text, this is the right answer.
     #Encrypted text is "YFKLZOYWFFSRYGSC"
-
+    trigger = input("Press enter to exit.");
 
 main();
 #Boots up the start of the program.
