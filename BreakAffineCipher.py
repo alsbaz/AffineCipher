@@ -1,12 +1,19 @@
 import math;
+import time;
+import msvcrt;
 #Using math module again for greatest common divider.
+
+array = (open("dictionary.txt").read()).split("\n")
 
 def crackAffine(m):
     plainText = '';
     counter = 0;
-    
+    matchList = [];
+
     encryptText = input('Please enter your encrypted text: \n');
     encryptText = encryptText.upper();
+
+    start_time = time.time();
 
     length = len(encryptText);
     #Simular to decryption however only asks for the encrypted text, not the keys.
@@ -44,11 +51,27 @@ def crackAffine(m):
                     plainText += chr(encryptNum);
                     counter += 1;
                 #Every other character gets discarded.
-            print(plainText, '... a =', coprimes[i], '... b =', b);
-            #Prints out the current variation of the possible plaintext. There is 312 possibilities.
-            #All outputted on a new line with their "a" and "b" values.
-    
 
+            ##dictionaryCheck(plainText);
+            
+            match = dictionaryCheck(plainText);
+            if match.weight != 0:
+                matchList.append(match);
+                
+                
+            
+    sortedList = sorted(matchList, key=lambda i: i.weight, reverse=True);
+
+    print("My program took", time.time() - start_time, "to run")
+
+    for z in sortedList:
+        print(z.text, "with a weight of", z.weight);
+        trigger = input("Enter \"Exit\" if you found it, or press enter to continue:\n")
+        if trigger == "Exit":
+            break;
+
+
+    
 def inverse(a, m):
     a1 = 1;
     a2 = a;
@@ -64,16 +87,30 @@ def inverse(a, m):
     return a1 % m;
     #Returns the remainder. This is to make sure it is not a negative number or a large number. 
 
+def dictionaryCheck(plain):
+    lenCounter = 0;
+    for i in array:
+        if i in plain:
+            lenCounter += len(i)*len(i);
+    
+    class textCounter:
+        def __init__(self):
+            self.text = plain
+            self.weight = lenCounter
+
+    return textCounter();    
 
 def main():
     m = 26;
     #Range of letters.
     crackAffine(m);
     #Starts the function with argument "m".
-    print('The keys were a = 23 and b = 4, CRYPTOCURRENCIES!');
-    #This is only as a help for our task, with our encrypted text, this is the right answer.
-    #Encrypted text is "YFKLZOYWFFSRYGSC"
-    trigger = input("Press enter to exit.");
+    #Encrypted text is "YFKLZOYWFFSRYGSC"            
+    
+    trigger = input("Press enter to exit or type \"Again\" to restart.");
+    if trigger == "Again":
+        main();
+
 
 main();
 #Boots up the start of the program.
