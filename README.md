@@ -10,7 +10,6 @@ Only letters and whitespaces are being kept, rest is discarded.
 # BreakAffineCipher
 
 Will take encrypted text as input.
-Outputs all possible plaintexts, user has to mannualy select correct one out of them.
-
-In future, could be attached to a dictionary to look for english words and select the answer.
+Compares possible outcomes to a english word list to predict most likely result, using a weighting system to value longer words more.
+It was made with focus on efficiency and timeings. 
 
